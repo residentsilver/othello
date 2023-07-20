@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #board {
+            display: grid;
+            grid-template-columns: repeat(8,1fr);
+            width: 800px;
+           
+            /* border: 2px solid black; */
+        }
+
+        #board div {
+            height: 100px;
+            width: 100px;
+            border: 1px solid black;
+            background-color: green;
+        }
+    </style>
+    <title>オセロ</title>
+</head>
+<body>
+    <div id="board"></div>
+    <script src="othello.js"></script>
+</body>
+</html>
