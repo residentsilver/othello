@@ -3,6 +3,7 @@ const board = document.getElementById('board')
 let count = 0
 
 //オセロの状況を保存する配列
+//何かコードを書くように指示を受けたので、記述
 const game = []
 
 // よく使いそうな処理は関数にする
