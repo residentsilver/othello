@@ -4,31 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        
         #board {
             display: grid;
-            grid-template-columns: repeat(8,1fr);
-            width: 800px;
-           
-            /* border: 2px solid black; */
+            grid-template-columns: repeat(8, 80px);
+            gap: 0;
+            width: fit-content;
+            margin: 20px;
+            padding: 10px;
+            background-color: #008000;
+            border: 10px solid #654321;
+            border-radius: 5px;
         }
 
         #board div {
-            height: 100px;
-            width: 100px;
+            height: 80px;
+            width: 80px;
             border: 1px solid black;
-            background-color: green;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 60px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        #board div:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .stone {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .black {
+            background: radial-gradient(circle at 30% 30%, #666, #000);
+        }
+
+        .white {
+            background: radial-gradient(circle at 30% 30%, #fff, #ddd);
+        }
+
+        #status {
+            font-size: 24px;
+            margin: 20px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
     </style>
-    <title>オセロ</title>
+    <title>オセロゲーム</title>
 </head>
 <body>
+    <h1>オセロゲーム</h1>
+    <div id="status">黒の番です</div>
     <div id="board"></div>
-    <p>黒が先行です</p>
-    <p>白が後攻です</p>
-    <p>１個目のレポジトリでの開発</p>
-    <p>家での開発</p>
-    <p>2個目のレポジトリでの開発</p>
-    <p>家での開発2回目</p>
     <script src="othello.js"></script>
 </body>
 </html>
