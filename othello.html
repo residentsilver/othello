@@ -89,6 +89,27 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+
+        #reset-button {
+            font-size: 18px;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+
+        #reset-button:hover {
+            background-color: #45a049;
+        }
+
+        #reset-button:active {
+            transform: translateY(1px);
+        }
     </style>
     <title>オセロゲーム</title>
 </head>
@@ -96,6 +117,7 @@
     <h1>オセロゲーム</h1>
     <div id="status">黒の番です</div>
     <div id="board"></div>
+    <button id="reset-button">ゲームをリセット</button>
     <script src="othello.js"></script>
 </body>
 </html>

@@ -1,11 +1,59 @@
 const board = document.getElementById('board');
 const status = document.getElementById('status');
+const resetButton = document.getElementById('reset-button');
 
 // ゲーム状態の管理
 // 0: 空, 1: 黒, -1: 白
 let gameState = Array(8).fill().map(() => Array(8).fill(0));
 let currentPlayer = 1; // 1: 黒, -1: 白
 let canPlay = true;
+
+// ゲームを初期状態にリセット
+function resetGame() {
+    if (!confirm('ゲームをリセットしますか？')) {
+        return;
+    }
+
+    // ゲーム状態をリセット
+    gameState = Array(8).fill().map(() => Array(8).fill(0));
+    currentPlayer = 1;
+    canPlay = true;
+
+    // 盤面をクリア
+    const cells = board.children;
+    for (let i = 0; i < 64; i++) {
+        cells[i].innerHTML = '';
+        cells[i].classList.remove('valid-move');
+    }
+
+    // 初期配置を設定
+    gameState[3][3] = -1;
+    gameState[3][4] = 1;
+    gameState[4][3] = 1;
+    gameState[4][4] = -1;
+
+    const initialPositions = [
+        { row: 3, col: 3, isBlack: false },
+        { row: 3, col: 4, isBlack: true },
+        { row: 4, col: 3, isBlack: true },
+        { row: 4, col: 4, isBlack: false }
+    ];
+
+    initialPositions.forEach(pos => {
+        const index = pos.row * 8 + pos.col;
+        if (pos.isBlack) {
+            makeBlack(cells[index]);
+        } else {
+            makeWhite(cells[index]);
+        }
+    });
+
+    // ステータス表示を更新
+    status.textContent = '黒の番です';
+
+    // 有効な手をハイライト
+    highlightValidMoves();
+}
 
 // 初期配置
 gameState[3][3] = -1;
@@ -168,6 +216,9 @@ for (let i = 0; i < 64; i++) {
 
     board.append(masu);
 }
+
+// リセットボタンのイベントリスナーを追加
+resetButton.addEventListener('click', resetGame);
 
 // 初期状態で有効な手をハイライト
 highlightValidMoves();
