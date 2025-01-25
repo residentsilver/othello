@@ -109,10 +109,13 @@ function highlightValidMoves() {
     }
 }
 
-// 石を裏返す
-function flipStones(row, col, player) {
+// 石を裏返す関数を非同期に変更
+async function flipStones(row, col, player) {
     gameState[row][col] = player;
     
+    let allFlips = [];
+    
+    // まず裏返す石の位置をすべて収集
     for (const [dx, dy] of DIRECTIONS) {
         let x = row + dx;
         let y = col + dy;
@@ -125,16 +128,27 @@ function flipStones(row, col, player) {
         }
         
         if (flips.length > 0 && x >= 0 && x < 8 && y >= 0 && y < 8 && gameState[x][y] === player) {
-            for (const [flipX, flipY] of flips) {
-                gameState[flipX][flipY] = player;
-                const index = flipX * 8 + flipY;
-                const cell = board.children[index];
-                if (player === 1) {
-                    makeBlack(cell);
-                } else {
-                    makeWhite(cell);
-                }
-            }
+            allFlips = allFlips.concat(flips);
+        }
+    }
+
+    // 石を順番に裏返す
+    for (const [flipX, flipY] of allFlips) {
+        gameState[flipX][flipY] = player;
+        const index = flipX * 8 + flipY;
+        const cell = board.children[index];
+        const stone = cell.querySelector('.stone');
+        
+        // アニメーションを追加
+        stone.classList.add('flipping');
+        
+        // アニメーション完了を待つ
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        if (player === 1) {
+            makeBlack(cell);
+        } else {
+            makeWhite(cell);
         }
     }
 }
@@ -186,7 +200,7 @@ for (let i = 0; i < 64; i++) {
         makeBlack(masu);
     }
     
-    masu.addEventListener('click', () => {
+    masu.addEventListener('click', async () => {
         if (!canPlay) return;
         
         if (isValidMove(row, col, currentPlayer)) {
@@ -196,7 +210,8 @@ for (let i = 0; i < 64; i++) {
                 makeWhite(masu);
             }
             
-            flipStones(row, col, currentPlayer);
+            // 石を裏返すのを待つ
+            await flipStones(row, col, currentPlayer);
             currentPlayer = -currentPlayer;
             
             // 次のプレイヤーが打てる手があるかチェック
