@@ -42,6 +42,25 @@ function isValidMove(row, col, player) {
     return false;
 }
 
+// 有効な手の位置をハイライト
+function highlightValidMoves() {
+    // 既存のハイライトをクリア
+    const cells = board.children;
+    for (let i = 0; i < 64; i++) {
+        cells[i].classList.remove('valid-move');
+    }
+
+    // 新しい有効な手をハイライト
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            if (isValidMove(row, col, currentPlayer)) {
+                const index = row * 8 + col;
+                cells[index].classList.add('valid-move');
+            }
+        }
+    }
+}
+
 // 石を裏返す
 function flipStones(row, col, player) {
     gameState[row][col] = player;
@@ -143,8 +162,12 @@ for (let i = 0; i < 64; i++) {
             }
             
             status.textContent = `${currentPlayer === 1 ? '黒' : '白'}の番です`;
+            highlightValidMoves(); // 有効な手を更新
         }
     });
 
     board.append(masu);
 }
+
+// 初期状態で有効な手をハイライト
+highlightValidMoves();
