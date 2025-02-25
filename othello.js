@@ -109,7 +109,7 @@ function highlightValidMoves() {
     }
 }
 
-// 石を裏返す関数を非同期に変更
+// 石を裏返す関数を修正
 async function flipStones(row, col, player) {
     gameState[row][col] = player;
     
@@ -139,17 +139,21 @@ async function flipStones(row, col, player) {
         const cell = board.children[index];
         const stone = cell.querySelector('.stone');
         
-        // アニメーションを追加
+        // アニメーションクラスを追加
         stone.classList.add('flipping');
         
         // アニメーション完了を待つ
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
-        if (player === 1) {
-            makeBlack(cell);
-        } else {
-            makeWhite(cell);
-        }
+        await new Promise(resolve => {
+            setTimeout(() => {
+                // アニメーション完了後に新しい石に置き換える
+                if (player === 1) {
+                    makeBlack(cell);
+                } else {
+                    makeWhite(cell);
+                }
+                resolve();
+            }, 600); // アニメーションの完了時間
+        });
     }
 }
 
@@ -178,13 +182,23 @@ function checkGameEnd() {
     }
 }
 
-// 石を作成する関数
+// 石を作成する関数を修正
 function makeBlack(masu) {
-    masu.innerHTML = '<div class="stone black"></div>';
+    masu.innerHTML = `
+        <div class="stone">
+            <div class="face black-face"></div>
+            <div class="face white-face back"></div>
+        </div>
+    `;
 }
 
 function makeWhite(masu) {
-    masu.innerHTML = '<div class="stone white"></div>';
+    masu.innerHTML = `
+        <div class="stone">
+            <div class="face white-face"></div>
+            <div class="face black-face back"></div>
+        </div>
+    `;
 }
 
 // ボードの作成
